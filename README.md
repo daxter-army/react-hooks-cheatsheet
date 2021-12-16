@@ -7,7 +7,8 @@
 **SYNTAX:**
 ```js
 const [ state, setState ] = useState(initialValue)
-// here state is the value, setState is the state updater function, and initial value is given as argument in the useState function
+// here state is the value, setState is the state updater function, and
+// initial value is given as argument in the useState function
 ```
 
 **NOTE:**
@@ -108,6 +109,8 @@ const buttonHandler = () => {
   console.log('value: ', countRef.current)
 }
 
+// therefore only initial value stays here, never changes, because the component never re-renders
+<p>Button is pressed: {countRef.current}</p>
 <button onClick={buttonHandler}>Update Count</button>
 ```
 
@@ -117,13 +120,88 @@ const buttonHandler = () => {
 * refs must be updated inside useEffect hook or any other event handler, not randomly anywhere.
 
 *External Resources*<br/>
-[Dmitri Pavlutin's React ref guide](https://dmitripavlutin.com/react-useref-guide/)
+*[Dmitri Pavlutin's React ref guide](https://dmitripavlutin.com/react-useref-guide/)*
 
 ## useEffect
+* If you are coming from class components, useEffect is capable of performing **componentDidMount()**, **componentDidUpdate()**, **componentWillUnmount()**.
+* **IMP!** It is fired after the JSX elements has been rendered on the screen.
+
+**SYNTAX:**
+```js
+  useEffect(() => {
+    // ...
+    side_effects
+    // ...
+    return(() => {
+      // preform cleanup here
+    })
+  
+  }, [dependency_array])
+```
+
+**EXAMPLE:**
+```js
+  const refreshWindowSize = () => {
+  }
+
+  useEffect(() => {
+    // side-effect
+    window.addEventListener('resize', refreshWindowSize)
+    
+    // cleanup
+    return(() => window.removeEventListener('resize', refreshWindow))
+  }, [])
+```
+
+**USECASES:**
+* without dependency array -> on runs on mounting, and on every state update
+* with empty dependency array -> runs on mounting only
+* with dependency item in dependecy array -> runs on mounting and everytime that dependency updates
+
 ## useLayoutEffect
+* It is similar to useEffect though is not much used as useEffect
+* One difference is **useEffect** runs **asynchronoulsy** after render, after the DOM manipulations are painted on the screen, and **useLayoutEffect** runs **synchronously**, after render, but prior to the the painting of DOM manipulations on the screen.
+
+**SYNTAX:**
+```js
+useLayoutEffect(() => {
+  // ...
+  side-effect
+  // ...
+  
+  return(() => { // do cleanup })
+}, [dependency_array])
+```
+
+**NOTE:**
+* It is not used too often, but sometimes can be used in case your UI is flashy when useEffect is being used.
+* Generally useEffect is prefered, for all the side-effects to cause in your application
+
+*External Resources*<br/>
+*[Dave Ceddia useLayoutEffect vs useEffect](https://daveceddia.com/useeffect-vs-uselayouteffect/)*
+
 ## useImperativeHandle
+* It is used to call functions, or to handle the state of child component from the parent component with the help of refs
+
+**SYNTAX:**
+```
+// takes 2 arguments ref and function that returns object
+useImperativeHandle(ref, () => ({
+  alterToggle() {
+    setToggle(!toggle)
+  }
+}))
+```
+
+**NOTE:**
+* It is usefull for to create components like Modals, toasts, snackbars etc, where the child component is called by an action happened in the parent component.
+
 ## useContext (Context API)
+* It's React's own state management system, which eliminates the need of prop-drilling for passing state from one component to another.
+
 ## useMemo
+* It is an advanced hook, is used for performance optimisation
+
 ## useCallback
 
 
