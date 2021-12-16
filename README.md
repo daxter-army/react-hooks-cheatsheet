@@ -194,13 +194,14 @@ useImperativeHandle(ref, () => ({
 ```
 
 **NOTE:**
-* It is usefull for to create components like Modals, toasts, snackbars etc, where the child component is called by an action happened in the parent component.
+* It is useful to create components like Modals, toasts, snackbars etc, where the child component is called by an action happened in the parent component.
 
 ## useContext (Context API)
 * It's React's own state management system, which eliminates the need of prop-drilling for passing state from one component to another.
 
 ## useMemo
-* It is an advanced hook, is used for performance optimisation
+* It is an advanced hook, is used for performance optimisation, decrease latency on computations being done in your app
+* 
 
 ## useCallback
 
