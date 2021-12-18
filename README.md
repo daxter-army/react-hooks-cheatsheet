@@ -218,7 +218,8 @@ useImperativeHandle(ref, () => ({
     
     return longestName
   }
-  // Now if we update toggle, you know the whole component renders and this getLongestName is also trigerred, although it's input remains the same
+  // Now if we update toggle, you know the whole component renders,
+  // and this getLongestName is also trigerred, although it's input remains the same
   // Therefore useMemo, only triggers function, if it is needed to
   
   // useMemo takes 2 arguments, function and dependency array list
@@ -236,10 +237,13 @@ useImperativeHandle(ref, () => ({
 **NOTE:**
 * Only use when to save computational time of lengthy functions
 * As the complexity of the function increases, the time for **initial render also increases**, but **subsequent renders are fast with it**.
+* Do not call state updating hooks inside useMemo.
 
 
 ## useCallback
 
+**useCallback v/s useMemo**
+* useMemo, caches the result of a function between renders, whereas useCallback, is used to memoize the function between re-renders.
 
 
 
