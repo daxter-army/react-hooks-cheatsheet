@@ -200,8 +200,43 @@ useImperativeHandle(ref, () => ({
 * It's React's own state management system, which eliminates the need of prop-drilling for passing state from one component to another.
 
 ## useMemo
-* It is an advanced hook, is used for performance optimisation, decrease latency on computations being done in your app
-* 
+* It is an advanced hook, is used for performance optimization. Basically it used to memoize computational intensive function calls in your react app.
+* It is similar to useEffect, useLayoutEffect in a way, because, it has also got dependency array.
+
+**SYNTAX:**
+```js
+  const [ data, setData ] = useState(null)
+  const [ toggle, setToggle ] = useState(false)
+  
+  // data -> It is list of users, which contains info like, user name, user's country, address and geolocation
+  // data is fetched over an api call and then is used in our app
+  
+  const getLongestName = (users) => {
+    if(!users) return null
+    
+    // loop...
+    
+    return longestName
+  }
+  // Now if we update toggle, you know the whole component renders and this getLongestName is also trigerred, although it's input remains the same
+  // Therefore useMemo, only triggers function, if it is needed to
+  
+  // useMemo takes 2 arguments, function and dependency array list
+  const longestUserName = useMemo(() => getLongestUserName(data), [data])
+  
+  return (
+    <div>
+      <p>Longest Name: {longestUserName}</p>
+      <button>Toggle</button>
+      {toggle && "Toggle"}
+    </div>
+  )
+```
+
+**NOTE:**
+* Only use when to save computational time of lengthy functions
+* As the complexity of the function increases, the time for **initial render also increases**, but **subsequent renders are fast with it**.
+
 
 ## useCallback
 
