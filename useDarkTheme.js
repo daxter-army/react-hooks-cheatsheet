@@ -26,10 +26,11 @@ const useDarkTheme = (
 
 export default useDarkTheme;
 
-  const currTheme = useDarkTheme(
-    false,
-    themeData.darkTextColor,
-    themeData.darkBgColor,
-    themeData.lightTextColor,
-    themeData.lightBgColor
-  );
+// CALL IN THE PARENT COMPONENT
+//   const currTheme = useDarkTheme(
+//     false,
+//     themeData.darkTextColor,
+//     themeData.darkBgColor,
+//     themeData.lightTextColor,
+//     themeData.lightBgColor
+//   );
