@@ -403,7 +403,6 @@ return (
 ```
 
 **NOTE:**
-
 -   It also takes 2 args, function and a dependency array.
 
 # React Portal
@@ -444,4 +443,136 @@ const Modal = () => {
     )
 }
 ```
-**NOTE: -** Rest all the things, and event capturing works in the way, as it supposed to work. The ```<Parent/>``` can captures all the state of the ```<Modal />```, whether it is implemented using portals or not.
+**NOTE:**
+- Rest all the things, and event capturing works in the way, as it supposed to work. The ```<Parent/>``` can captures all the state of the ```<Modal />```, whether it is implemented using portals or not.
+
+# React HOC
+[Codesandbox Playground](https://codesandbox.io/s/empty-hooks-hdjywu?file=/public/index.html)
+
+* Like all other components, it is also a component, or we can say a function (because a component, is nothing but only a function), that takes a component, and returns a new component.
+
+* It is created when there are multiple components, with similar logic and a very little UI differences, so that we can reuse them with a single component, rather than defining a brand new component to cover all the use cases.
+ 
+* It provies you functionality to reuse your code logic, but to render different UIs, like:
+       * Rendering multiple lists of users, locations, photos
+       * Infinite scroll, in different views, with different data etc
+
+**It is basically used to share logic across different components, without having to rewrite it.**
+
+**SYNTAX:**
+* Consider a scenario, where you want to render list of users and products, and also want to give an option to search the list.
+
+* Here the logic for searching the list is same, just the UI will be different of both the lists.
+
+* **The Logic is same, just the UI is different, so here we can use HOC do reuse our logic for searching items from list.**
+
+```javascript
+// App.js
+<div className="App">
+    <Products />
+    <Users />
+</div>
+```
+
+```javascript
+// Products.js
+
+import withSearch from "../withSearch";
+import { products } from "../data";
+
+const Products = ({ data }) => {
+  return (
+    <div>
+      <h3>Products</h3>
+      {
+        data.map(product => <div key={product.id}>{product.name}</div>)
+      }
+    </div>
+  );
+};
+
+export default withSearch(Products, products);
+```
+
+```javascript
+// Users.js
+
+import withSearch from "../withSearch";
+import { users } from "../data";
+
+const Users = ({ data }) => {
+  return (
+    <div>
+      <h3>Users</h3>
+      {
+        data.map(user => <div key={user.id}>{user.name}</div>)
+      }
+    </div>
+  );
+};
+
+export default withSearch(Users, users);
+```
+
+```javascript
+// withSearch.js
+
+const withSearch = (WrappedComponent, listItems) => {
+  class HOC extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        searchTerm: ""
+      };
+      this.searchTermHandler = this.searchTermHandler.bind(this);
+    }
+
+    searchTermHandler(event) {
+      this.setState({ searchTerm: event.target.value });
+    }
+
+    render() {
+      const filteredList = listItems.filter(
+        (item) =>
+          item.name
+            .toLowerCase()
+            .indexOf(this.state.searchTerm.toLocaleLowerCase()) >= 0
+      );
+
+      return (
+        <div>
+          <input
+            type="text"
+            placeholder="search"
+            value={this.searchTerm}
+            onChange={this.searchTermHandler}
+          />
+          <WrappedComponent data={filteredList} />
+        </div>
+      );
+    }
+  }
+
+  return HOC;
+};
+
+export default withSearch;
+```
+
+**NOTE:**
+- The core of the HOC have to be written as a Class component. We cannot use functional component there because we might wanna use React Hooks in there, and you can't use React Hooks inside nested functions.
+
+- Do not use call HOC in the render()
+```js
+render() {
+  // A new version of EnhancedComponent is created on every render
+  // EnhancedComponent1 !== EnhancedComponent2
+  const EnhancedComponent = enhance(MyComponent);
+  // That causes the entire subtree to unmount/remount each time!
+  return <EnhancedComponent />;
+}
+```
+- To pass ref, use ```React.forwardRef()```
+
+# React Lazy Loading with Suspense
+# React Pure Component
