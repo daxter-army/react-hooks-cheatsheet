@@ -468,10 +468,12 @@ const Modal = () => {
 
 ```javascript
 // App.js
-<div className="App">
-    <Products />
-    <Users />
-</div>
+return (
+    <div className="App">
+        <Products />
+        <Users />
+    </div>
+)
 ```
 
 ```javascript
