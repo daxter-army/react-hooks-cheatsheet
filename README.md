@@ -516,6 +516,8 @@ const Users = ({ data }) => {
 export default withSearch(Users, users);
 ```
 
+// Otherwise this logic would have been coded in both Products.js and Users.js separately
+
 ```javascript
 // withSearch.js
 
