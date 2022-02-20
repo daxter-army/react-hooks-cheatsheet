@@ -444,3 +444,4 @@ const Modal = () => {
     )
 }
 ```
+**NOTE: -** Rest all the things, and event capturing works in the way, as it supposed to work. The ```<Parent/>``` can captures all the state of the ```<Modal />```, whether it is implemented using portals or not.
