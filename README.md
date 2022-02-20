@@ -447,6 +447,7 @@ const Modal = () => {
 - Rest all the things, and event capturing works in the way, as it supposed to work. The ```<Parent/>``` can captures all the state of the ```<Modal />```, whether it is implemented using portals or not.
 
 # React HOC
+
 [Codesandbox Playground](https://codesandbox.io/s/empty-hooks-hdjywu?file=/public/index.html)
 
 * Like all other components, it is also a component, or we can say a function (because a component, is nothing but only a function), that takes a component, and returns a new component.
@@ -578,5 +579,37 @@ render() {
 ```
 - To pass ref, use ```React.forwardRef()```
 
-# React Lazy Loading with Suspense
+# Lazy Loading with React Suspense
+
+[Codesandbox Playground](https://codesandbox.io/s/empty-hooks-hdjywu?file=/public/index.html)
+
+* Let's assume you are making a platform, in which students are required to mark their attendence, and teachers can access the panel to approve/cancel the same.
+* Teachers cannot access students portal and students cannot access teachers panel. So wouldn't it be great if you only load the required feature, which is to be accessed because the user of your application can only access one feature at a time? Here React Suspense comes in clutch!.
+* React Lazy loading offers you code splitting, which allows you to load React components dynamically.
+
+```javascript
+
+const Teacher = lazy(() => import("./Teacher/Teacher"));
+const Student = lazy(() => import("./Student/Student"));
+
+const App = () => {
+    const switchHandler = () => {
+        setPanel(panel === "TEACHER" ? "STUDENT" : "TEACHER");
+    };
+
+    return (
+        // ... other code
+        <button onClick={switchHandler}>Load Panel</button>
+        <Suspense fallback={<div>loading...</div>}>
+            {panel === "TEACHER" && <Teacher>Teacher Panel loaded lazily</Teacher>}
+            {panel === "STUDENT" && <Student>Student Panel loaded lazily</Student>}
+        </Suspense>
+        
+        // ... other code
+    )
+}
+
+export default App
+```
+
 # React Pure Component
