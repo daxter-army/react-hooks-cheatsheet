@@ -405,3 +405,42 @@ return (
 **NOTE:**
 
 -   It also takes 2 args, function and a dependency array.
+
+# React Portal
+* React gives an API which we can use to render our elements, outside the conventional **root** div, because sometimes you need to render things outside the root div.
+
+[Codesandbox Playground](https://codesandbox.io/s/empty-hooks-hdjywu?file=/public/index.html)
+
+**SYNTAX:**
+
+
+```html
+<!-- index.html  -->
+
+... other code
+<div id="modal-root"></div>
+<div id="root"></div>
+... other code
+
+<!-- your usual react code renders inside **#root**, -->
+<!-- but the code that we will be rendering with portal would be inside **#modal-root**. -->
+```
+
+```js
+// Modal.js
+
+import './Modal.css'
+import { createPortal } from "react-dom"
+
+// It takes 2 arguments, 1st -> the code which is needed to be rendered,
+// 2nd the DOM node, in which the code is needed to be rendered.
+
+const Modal = () => {
+    return createPortal(
+        <div className="modal">
+            ... // modal code
+        </div>,
+        document.getElementById('modal-root')
+    )
+}
+```
