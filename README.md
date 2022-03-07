@@ -565,7 +565,9 @@ export default withSearch;
 ```
 
 **NOTE:**
-- The core of the HOC have to be written as a Class component. We cannot use functional component there because we might wanna use React Hooks in there, and you can't use React Hooks inside nested functions.
+- The core of the HOC can be written as
+    * Functional Component: But you won't be able to call hooks inside this component, since, it is a nested component/function, there leading to a very stateless HOC, which merely serves the purpose of a wrapper.
+    * Class Component: Class components are itself capable of doing anything, therefore, you can do anything as per your needs in this class component. (Although React Hooks are also banned in class components! 😛)
 
 - Do not use call HOC in the render()
 ```js
