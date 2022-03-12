@@ -7,3 +7,5 @@ https://codesandbox.io/s/the-medium-clap-6r64hf?file=/src/components/Clap/Clap.j
 ## Custom Hooks
 
 ## Compound Components Pattern
+<img src="./style2.svg" />
+<img src="./style1.svg" />
