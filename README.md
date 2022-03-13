@@ -662,7 +662,7 @@ export default App
 
 - Lets consider 2 designs for trains.
 
-  - **The First Design:** Here all the carriages are interconnected, and if person enters in any of the carriage, he/she can traverse the whole train. The train is a large lump itself.
+  - **The First Design:** Here all the carriages are interconnected, and if person enters in any of the carriage, he/she can traverse the whole train. The train is a large lump itself.<br/><br/>
     <img src="./style2.svg" width="450px"/>
 
     - or if we try to rephrase it in a react analogy
@@ -677,7 +677,7 @@ export default App
         // one single entry point and one large lump
     ```
 
-  - **The Second Design:** Here every carriage is separated in itself, and all the components are isolated and self-contained, and the carriages are connected with each other with the help of some coupling. The train is not a large lump itself.<br/>
+  - **The Second Design:** Here every carriage is separated in itself, and all the components are isolated and self-contained, and the carriages are connected with each other with the help of some coupling. The train is not a large lump itself.<br/><br/>
     <img src="./style1.svg" width="450px" />
 
     - or if we try to rephrase it in a react analogy
