@@ -1,5 +1,7 @@
 # <img src="./react-brands.png" alt="logo-image" /> react-hooks-cheatsheet
 
+**with practical implementations**
+
 ## Contents
 
 - React Hooks
@@ -21,14 +23,8 @@
   - [Lazy Loading (React Suspense)]()
   - [Pure Component](#)
   - [HOC Vs Hooks](#)
-  - [Compund Components](#)
   - [Controlled Props](#)
-
-<!-- - My Custom Hooks
-  - [useBreakpoint.js](#)
-  - [useDarkTheme.js](#)
-  - [useHttpsReq.js](#)
-  - [useScrollDownToScrollRight.js]() -->
+  - [Compund Components](#)
 
 **[Live Codesandbox link with all the examples listed above](https://codesandbox.io/s/react-hooks-practice-xqyvz?file=/src/App.js)**
 
@@ -778,5 +774,3 @@ const Child = ({ textValue, textHandler }) => {
   );
 };
 ```
-
-**REACT 18 COMING SOON**
