@@ -663,7 +663,7 @@ export default App
 - Lets consider 2 designs for trains.
 
   - **The First Design:** Here all the carriages are interconnected, and if person enters in any of the carriage, he/she can traverse the whole train. The train is a large lump itself.
-    <img src="./style2.svg" width="500px"/>
+    <img src="./style2.svg" width="450px"/>
 
     - or if we try to rephrase it in a react analogy
 
@@ -672,11 +672,13 @@ export default App
            | -> <Body {...props} />
            | -> <Chasis {...props} />
            | -> <Engine {...props} />
-        // Like we return <Bike /> to the user, and user dont knows about the inner components, one single entry point and one large lump
+        // Like we return <Bike /> to the user,
+        // and user dont knows about the inner components,
+        // one single entry point and one large lump
     ```
 
   - **The Second Design:** Here every carriage is separated in itself, and all the components are isolated and self-contained, and the carriages are connected with each other with the help of some coupling. The train is not a large lump itself.
-    <img src="./style1.svg" width="500px" />
+    <img src="./style1.svg" width="450px" />
 
     - or if we try to rephrase it in a react analogy
 
