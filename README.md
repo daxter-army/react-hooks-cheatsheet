@@ -18,8 +18,8 @@
 
 - React Advanced Concepts/Patterns
 
-  - [Portals](#)
-  - [High Order Components](#)
+  - [Portals](#Portal)
+  - [High Order Components](#HOC)
   - [Lazy Loading (React Suspense)]()
   - [Pure Component](#)
   - [HOC Vs Hooks](#)
@@ -650,7 +650,87 @@ const App = () => {
 export default App
 ```
 
-## Pure Component
+## Pure Component or React.Memo
+
+- Pure Component (React.Memo) is used to optimise your class based/functional component, to prevent unneccessary re-renders, when there is no change in the props of a component.
+
+- **Need:** To optimize unnecessary renders in the components.
+
+- A normal component (which is extended from Component class), renders when:
+  - State changes
+  - Prop changes
+  - Context changes
+  - Parent re-renders
+- Therefore, by using Pure Component, we can prevent rendering of the component, when the parent renders, and when there is no change in props/state.
+
+- **How:** It shallow compares the prevState with state and prevProps and props, and if there is any difference, then it triggers re-render.
+
+```js
+// Parent.js
+const [name, setName] = useState("Hello");
+
+useEffect(() => {
+  const changer = setInterval(() => {
+    setName("Hello");
+    console.log("Changing Name!");
+  }, 2000);
+
+  return () => clearInterval(changer);
+}, []);
+
+return (
+  <div>
+    <RegComp name={name} />
+    <PureComp name={name} />
+  </div>
+);
+```
+
+```js
+// RegComp.js
+import { Component } from "react";
+
+class RegComp extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  render() {
+    console.log("RegComp Rendering!");
+    return (
+      <p>
+        <b>Name: {this.props.name}</b>
+      </p>
+    );
+  }
+}
+
+export default RegComp;
+```
+
+```js
+// PureComp.js
+import { PureComponent } from "react";
+
+class PureComp extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  render() {
+    console.log("PureComp Rendering!");
+    return (
+      <p>
+        <b>Name: {this.props.name}</b>
+      </p>
+    );
+  }
+}
+
+export default PureComp;
+```
 
 ## HOC Vs Hooks
 
@@ -659,6 +739,8 @@ export default App
 - Both HOCs and hooks are used to encourage code reusability, but both uses very different approach at it. Here a codesandbox that illustrates that how same things can be accomplished by using different react strategies.
 
 ## Compound Components Pattern
+
+[Codesandbox Playground](https://codesandbox.io/s/react-hooks-practice-xqyvz?file=/src/pages/CompoundComponentPage.js)
 
 - Lets consider 2 designs for trains.
 
