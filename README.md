@@ -2,13 +2,11 @@
 
 **with practical implementations**
 
-## my-custom-hooks
+## Feature Implementations
 [pull-down-to-refresh-react](https://codesandbox.io/s/pull-down-to-refresh-react-0vypxo?file=/src/App.js)
 
 ## Contents
-
 - React Hooks
-
   - [useState](#useState)
   - [useReducer](#useReducer)
   - [useRef](#useRef)
@@ -18,9 +16,15 @@
   - [useContext](#useContext)
   - [useMemo](#useMemo)
   - [useCallback](#useCallback)
+ 
+- React Custom Hooks
+  - [useTimeout](#useTimeout)
+  - [useDebounce](#useDebounce)
+  - [useThrottle](#useThrottle)
+  - [useOutsideClick](#useOutsideClick)
+  - [useIntersectionObserver](#useIntersectionObserver)
 
 - React Advanced Concepts/Patterns
-
   - [Portals](#Portal)
   - [High Order Components](#HOC)
   - [Lazy Loading (React Suspense)]()
@@ -434,6 +438,15 @@ return (
 **NOTE:**
 
 - It also takes 2 args, function and a dependency array.
+
+# Custom Hooks
+
+## useTimeout
+## useDebounce
+## useTimeout
+## useThrottle
+## useOutsideClick
+## useIntersectionObserver
 
 # Advanced React Concepts/Patterns
 
