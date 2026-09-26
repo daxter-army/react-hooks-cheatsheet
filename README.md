@@ -16,6 +16,7 @@
   - [useContext](#useContext)
   - [useMemo](#useMemo)
   - [useCallback](#useCallback)
+  - [useSyncExternalStore](#useSyncExternalStore)
  
 - React Custom Hooks
   - [useTimeout](#useTimeout)
@@ -435,9 +436,154 @@ return (
 );
 ```
 
+> NOTE: It also takes 2 args, function and a dependency array.
+
+## useSyncExternalStore
+
+[Codesandbox Playground](https://codesandbox.io/s/react-hooks-practice-xqyvz?file=/src/pages/UseSyncExternalStore.js)
+
+- `useSyncExternalStore` lets a component subscribe to a value that is stored outside React. When the external store changes, it notifies React and the component re-renders with the latest snapshot.
+
+**SYNTAX:**
+
+```js
+const snapshot = useSyncExternalStore(
+  subscribe,
+  getSnapshot,
+  getServerSnapshot // optional; used during server-side rendering
+);
+```
+
+- `subscribe` registers React's callback with the external store and returns a cleanup function.
+- `getSnapshot` returns the current value of the store.
+- `getServerSnapshot` returns the initial snapshot used during server-side rendering.
+
+**EXAMPLE: SCORE STORED OUTSIDE THE COMPONENT**
+
+```js
+import { useSyncExternalStore } from "react";
+
+// This store exists outside React's component lifecycle.
+let score = 0;
+let listener = null;
+
+const scoreStore = {
+  getSnapshot() {
+    return score;
+  },
+
+  subscribe(callback) {
+    listener = callback;
+
+    // cleanup just like useEffect
+    return () => listener = null;
+  },
+
+  increment() {
+    score += 1;
+    listener(); // call the subscribe's callback (that should be triggered to change the values)
+  },
+};
+
+const Score = () => {
+  const score = useSyncExternalStore(
+    scoreStore.subscribe, // subscribe to the value, that is going to be changed
+    scoreStore.getSnapshot
+  );
+
+  return (
+    <div>
+      <p>Score: {score}</p>
+      <button onClick={scoreStore.increment}>Increase score</button>
+    </div>
+  );
+};
+```
+
+**EXAMPLE: SUBSCRIBE TO WINDOW RESIZE**
+
+```js
+import { useSyncExternalStore } from "react";
+
+const subscribeToResize = (callback) => {
+  window.addEventListener("resize", callback);
+
+  return () => window.removeEventListener("resize", callback);
+};
+
+const getWindowWidth = () => window.innerWidth;
+
+const WindowWidth = () => {
+  const width = useSyncExternalStore(
+    subscribeToResize,
+    getWindowWidth,
+    // this prop is needed when server side things are also happening
+  );
+
+  return <p>Window width: {width}px</p>;
+};
+```
+
+**EXAMPLE: USE A SCORE LOADED ON THE SERVER**
+
+```js
+import { useState, useSyncExternalStore } from "react";
+
+const createScoreStore = (initialScore) => {
+  let score = initialScore;
+  const listeners = new Set();
+
+  return {
+    getSnapshot: () => score,
+    getServerSnapshot: () => initialScore,
+
+    subscribe(callback) {
+      listeners.add(callback);
+      return () => listeners.delete(callback);
+    },
+
+    increment() {
+      score += 1;
+      listeners.forEach((listener) => listener());
+    },
+  };
+};
+
+const Score = ({ initialScore }) => {
+  const [scoreStore] = useState(() => createScoreStore(initialScore));
+
+  const score = useSyncExternalStore(
+    scoreStore.subscribe,
+    scoreStore.getSnapshot,
+    scoreStore.getServerSnapshot
+  );
+
+  return (
+    <div>
+      <p>Score: {score}</p>
+      <button onClick={scoreStore.increment}>Increase score</button>
+    </div>
+  );
+};
+
+// On the server, load real data for the current request.
+const initialScore = await getScoreFromDatabase(userId);
+
+// The framework renders this on the server and sends the same initialScore
+// to the browser when it hydrates the component.
+<Score initialScore={initialScore} />;
+```
+
+In this example, `getServerSnapshot` returns the real score loaded for the user,
+not a fallback. The same `initialScore` must be used for the server render and the
+first client hydration so that their HTML matches. A new store should be created
+for each server request so users do not share state.
+
 **NOTE:**
 
-- It also takes 2 args, function and a dependency array.
+- Keep `subscribe` and `getSnapshot` outside the component when possible so they are not recreated on every render.
+- The cleanup returned by `subscribe` prevents duplicate listeners and memory leaks.
+- The value returned by `getSnapshot` should remain unchanged until the external store actually changes.
 
 # Custom Hooks
 
@@ -669,6 +815,7 @@ export default App
 ## Pure Component or React.Memo
 
 - Pure Component (React.Memo) is used to optimise your class based/functional component, to prevent unneccessary re-renders, when there is no change in the props of a component.
+- Or in other words, PureComponent skips re-rendering when props and state are shallowly equal. Primitives are compared by value only.
 
 - **Need:** To optimize unnecessary renders in the components.
 
